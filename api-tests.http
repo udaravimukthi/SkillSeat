@@ -29,7 +29,15 @@ Content-Type: application/json
 
 ### 6. Ruwan → SPRING201 ❌ Seats full!
 POST http://localhost:8080/api/enrollments
-Content-Type: application/js
+Content-Type: application/json
+
+{ "studentId": 3, "subjectId": 2 }
+
+### 7. Kasun again adding to SPRING201  ❌ Already enrolled!
+POST http://localhost:8080/api/enrollments
+Content-Type: application/json
+
+{ "studentId": 1, "subjectId": 2 }
 
 ### 8. Kasun' senrollments
 GET http://localhost:8080/api/students/1/enrollments
@@ -52,3 +60,31 @@ Content-Type: application/json
   "lastName": "Test",
   "email": "not-an-email"
 }
+
+### 12. for not a student ❌ 404
+GET http://localhost:8080/api/students/999
+
+### 13. ID is not a number ❌ 400
+GET http://localhost:8080/api/students/abc
+
+### 14. breaks JSON (no comma) ❌ 400
+POST http://localhost:8080/api/students
+Content-Type: application/json
+
+{ "firstName": "Test" "lastName": "User" }
+
+### 15. Duplicate email ❌ 409
+POST http://localhost:8080/api/students
+Content-Type: application/json
+
+{
+  "firstName": "Kasun",
+  "lastName": "Copy",
+  "email": "kasun@gmail.com"
+}
+
+### 16. no URL ❌ 404
+GET http://localhost:8080/api/teachers
+
+### 17. wrong HTTP method ❌ 405
+DELETE http://localhost:8080/api/subjects
