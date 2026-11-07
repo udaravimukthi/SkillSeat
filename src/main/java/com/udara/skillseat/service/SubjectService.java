@@ -9,6 +9,8 @@ import com.udara.skillseat.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,8 +22,10 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final InstructorRepository instructorRepository;
 
-    public List<Subject> getAll() {
-        return subjectRepository.findAll();
+    public Page<Subject> getAll(boolean availableOnly, Pageable pageable) {
+        return availableOnly
+                ? subjectRepository.findAvailable(pageable)
+                : subjectRepository.findAll(pageable);
     }
 
     public Subject getById(Long id) {

@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+import com.udara.skillseat.dto.PageResponse;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
@@ -22,10 +25,13 @@ public class SubjectController {
     private final EnrollmentService enrollmentService;
 
     @GetMapping
-    public List<SubjectResponse> getAll() {
-        return subjectService.getAll().stream()
-                .map(SubjectResponse::from)
-                .toList();
+    public PageResponse<SubjectResponse> getAll(
+            @RequestParam(defaultValue = "false") boolean availableOnly,
+            @PageableDefault(size = 10, sort = "code") Pageable pageable) {
+
+        return PageResponse.from(
+                subjectService.getAll(availableOnly, pageable).map(SubjectResponse::from)
+        );
     }
 
     @GetMapping("/{id}")

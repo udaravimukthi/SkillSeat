@@ -7,9 +7,12 @@ import com.udara.skillseat.service.EnrollmentService;
 import com.udara.skillseat.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.udara.skillseat.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -22,10 +25,13 @@ public class StudentController {
     private final EnrollmentService enrollmentService;
 
     @GetMapping
-    public List<StudentResponse> getAll() {
-        return studentService.getAll().stream()
-                .map(StudentResponse::from)
-                .toList();
+    public PageResponse<StudentResponse> getAll(
+            @RequestParam(required = false) String name,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+
+        return PageResponse.from(
+                studentService.getAll(name, pageable).map(StudentResponse::from)
+        );
     }
 
     @GetMapping("/{id}")
