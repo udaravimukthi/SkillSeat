@@ -1,0 +1,54 @@
+### 1. Available Students
+GET http://localhost:8080/api/students
+
+### 2. Available Subjects(availableSeats)
+GET http://localhost:8080/api/subjects
+
+### 3. new student adding
+POST http://localhost:8080/api/students
+Content-Type: application/json
+
+{
+  "firstName": "Thilakshi",
+  "lastName": "Silva",
+  "email": "thilakshi@gmail.com",
+  "phone": "0771112223"
+}
+
+### 4. Kasun→ SPRING201 enrollement
+POST http://localhost:8080/api/enrollments
+Content-Type: application/json
+
+{ "studentId": 1, "subjectId": 2 }
+
+### 5. Nimali → SPRING201  enroll (lastseat)
+POST http://localhost:8080/api/enrollments
+Content-Type: application/json
+
+{ "studentId": 2, "subjectId": 2 }
+
+### 6. Ruwan → SPRING201 ❌ Seats full!
+POST http://localhost:8080/api/enrollments
+Content-Type: application/js
+
+### 8. Kasun' senrollments
+GET http://localhost:8080/api/students/1/enrollments
+
+### 9. Enrollment cancel කරන්න (available a seat)
+PATCH http://localhost:8080/api/enrollments/1/cancel
+
+### 10. now Ruwan can enroll  ✅
+POST http://localhost:8080/api/enrollments
+Content-Type: application/json
+
+{ "studentId": 3, "subjectId": 2 }
+
+### 11. Validation test ❌ (empty name, wrong email)
+POST http://localhost:8080/api/students
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Test",
+  "email": "not-an-email"
+}

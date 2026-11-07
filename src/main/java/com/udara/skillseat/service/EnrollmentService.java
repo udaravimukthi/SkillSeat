@@ -33,16 +33,16 @@ public class EnrollmentService {
         Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject", subjectId));
 
-        if (!subject.hasAvailableSeats()) {
-            throw new BusinessException("No seats available in " + subject.getCode());
-        }
-
         Enrollment enrollment = enrollmentRepository
                 .findByStudentIdAndSubjectId(studentId, subjectId)
                 .orElse(null);
 
         if (enrollment != null && enrollment.getStatus() == EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Student is already enrolled in " + subject.getCode());
+        }
+
+        if (!subject.hasAvailableSeats()) {
+            throw new BusinessException("No seats available in " + subject.getCode());
         }
 
         if (enrollment != null) {
